@@ -1,0 +1,1155 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thư mời Hội nghị Cổ đông | HOI AN TOURIST</title>
+  <meta name="description" content="Thư mời tham dự Hội nghị Cổ đông Thường niên - Công ty CP Du lịch dịch vụ Hội An (HOI AN TOURIST)." />
+
+  <!--
+    1-FILE HTML TEMPLATE (no build tools)
+    - Smooth scroll
+    - Slideshow
+    - RSVP form with 3 options (Self / Not attending / Delegate)
+    - Submit to Google Apps Script endpoint (you will paste later)
+
+    NOTE:
+    - Upload file feature is intentionally omitted (as requested). Can be added later.
+  -->
+
+  <style>
+    :root{
+      /* Brand palette (3 main colors): Orange-gold + Deep Blue + White */
+      --brand:#f59e0b;       /* orange-gold */
+      --brand-2:#f97316;     /* warmer accent */
+      --ink:#0b1b3a;         /* deep blue */
+      --bg:#fffaf2;          /* warm white */
+      --card:#ffffff;
+      --muted:#64748b;
+      --border:rgba(15, 23, 42, 0.10);
+      --shadow: 0 18px 50px rgba(2, 6, 23, 0.10);
+      --shadow-soft: 0 10px 30px rgba(2, 6, 23, 0.08);
+      --radius: 22px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(245, 158, 11, 0.16), transparent 55%),
+        radial-gradient(900px 520px at 90% 0%, rgba(11, 27, 58, 0.10), transparent 60%),
+        linear-gradient(180deg, var(--bg), #ffffff 45%, #ffffff);
+    }
+
+    a{color:inherit}
+
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+
+    /* Intro overlay */
+    #intro{opacity:1;transform:scale(1);transition:opacity .42s ease, transform .42s ease}
+    #intro.hide{opacity:0;transform:scale(1.01)}
+
+    @keyframes floaty {
+      0%{ transform: translateY(0px) rotate(-0.2deg) }
+      50%{ transform: translateY(-4px) rotate(0.2deg) }
+      100%{ transform: translateY(0px) rotate(-0.2deg) }
+    }
+
+    @keyframes bouncy {
+      0%, 100%{ transform: translateY(0px) }
+      50%{ transform: translateY(-3px) }
+    }
+
+    #envelope{animation: floaty 2.6s ease-in-out infinite}
+    #openBtn{animation: bouncy 1.15s ease-in-out infinite; display:inline-block}
+
+    /* Open states */
+    #intro.opening #flap{transform: rotateX(165deg)}
+    #intro.opening #paper{transform: translateY(-12px)}
+
+    /* Top bar */
+    .topbar{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 250, 242, 0.70);
+      border-bottom:1px solid rgba(15,23,42,0.06);
+    }
+    .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 24px}
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 260px;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(245,158,11,0.25), rgba(11,27,58,0.10));
+      border:1px solid rgba(245,158,11,0.25);
+      display:grid;place-items:center;
+      overflow:hidden;
+    }
+    .logo img{width:100%;height:100%;object-fit:cover}
+
+    .brand .t1{font-weight:800;letter-spacing:0.2px;line-height:1.1}
+    .brand .t2{font-size:12px;color:var(--muted);margin-top:2px}
+
+    .nav{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .chip{
+      text-decoration:none;
+      font-size:13px;
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.65);
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+    }
+    .chip:hover{transform: translateY(-1px); border-color: rgba(245,158,11,0.35)}
+
+    .cta{
+      text-decoration:none;
+      font-weight:800;
+      padding:10px 14px;
+      border-radius:999px;
+      color:#1f1300;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 14px 35px rgba(245, 158, 11, 0.25);
+      border:1px solid rgba(245,158,11,0.45);
+      transition: transform .15s ease, filter .15s ease;
+    }
+    .cta:hover{transform: translateY(-1px); filter:saturate(1.05)}
+
+    /* Hero */
+    .hero{padding:28px 0 10px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap:22px;
+      align-items:stretch;
+    }
+
+    .hero-card{
+      background: rgba(255,255,255,0.70);
+      border:1px solid rgba(15,23,42,0.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:26px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-card::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(700px 240px at 30% 0%, rgba(245,158,11,0.20), transparent 55%),
+                  radial-gradient(520px 240px at 90% 10%, rgba(11,27,58,0.12), transparent 60%);
+      pointer-events:none;
+    }
+    .hero-card > *{position:relative}
+
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:12px; font-weight:800;
+      padding:7px 12px;
+      border-radius:999px;
+      background: rgba(245,158,11,0.14);
+      border:1px solid rgba(245,158,11,0.25);
+      color:#5a3a00;
+    }
+
+    h1{margin:12px 0 10px;font-size:34px;line-height:1.15;letter-spacing:-0.5px}
+    .sub{margin:0;color:rgba(11,27,58,0.75);font-size:15px;line-height:1.65}
+
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{
+      cursor:pointer;
+      border:none;
+      border-radius: 16px;
+      padding:12px 14px;
+      font-weight:800;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .btn-primary{
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color:#1f1300;
+      box-shadow: 0 18px 40px rgba(245, 158, 11, 0.22);
+      border:1px solid rgba(245,158,11,0.45);
+    }
+    .btn-primary:hover{transform: translateY(-1px)}
+
+    .btn-ghost{
+      background: rgba(255,255,255,0.75);
+      border:1px solid rgba(15,23,42,0.10);
+      color: var(--ink);
+      box-shadow: var(--shadow-soft);
+    }
+    .btn-ghost:hover{transform: translateY(-1px); border-color: rgba(245,158,11,0.30)}
+
+    .company{
+      margin-top:14px;
+      padding-top:14px;
+      border-top:1px dashed rgba(15,23,42,0.12);
+      display:grid;
+      gap:4px;
+    }
+    .company .name{font-weight:900;letter-spacing:0.2px}
+    .company .alias{font-size:13px;color:var(--muted)}
+
+    /* Slideshow */
+    .slider{
+      border-radius: var(--radius);
+      overflow:hidden;
+      border:1px solid rgba(15,23,42,0.10);
+      box-shadow: var(--shadow);
+      background: #0b1b3a;
+      position:relative;
+    }
+    .slides{display:flex;transition: transform .55s cubic-bezier(.2,.8,.2,1)}
+    .slide{
+      min-width:100%;
+      height: 360px;
+      position:relative;
+      display:grid; place-items:center;
+      background:
+        radial-gradient(700px 300px at 20% 20%, rgba(245,158,11,0.25), transparent 55%),
+        radial-gradient(700px 300px at 90% 80%, rgba(249,115,22,0.18), transparent 60%),
+        linear-gradient(135deg, rgba(11,27,58,0.90), rgba(11,27,58,0.75));
+    }
+    .slide .cap{
+      width:min(420px, 86%);
+      background: rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.14);
+      border-radius: 20px;
+      padding:16px;
+      color: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+    }
+    .cap .t{font-weight:900;letter-spacing:0.2px}
+    .cap .d{margin-top:6px;color: rgba(255,255,255,0.72);font-size:13px;line-height:1.55}
+
+    .slider-controls{
+      position:absolute; inset:auto 12px 12px 12px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      pointer-events:none;
+    }
+    .arrow{
+      pointer-events:auto;
+      width:42px;height:42px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.92);
+      cursor:pointer;
+      display:grid; place-items:center;
+      transition: transform .15s ease, background .15s ease;
+      user-select:none;
+    }
+    .arrow:hover{transform: translateY(-1px); background: rgba(255,255,255,0.14)}
+
+    .dots{pointer-events:auto;display:flex;gap:8px;align-items:center;justify-content:center;flex:1}
+    .dot{
+      width:9px;height:9px;border-radius:999px;
+      background: rgba(255,255,255,0.25);
+      border:1px solid rgba(255,255,255,0.18);
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .dot.active{background: rgba(245,158,11,0.95); transform: scale(1.1)}
+
+    /* Sections */
+    section{padding:18px 0}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+    }
+
+    .card{
+      background: rgba(255,255,255,0.78);
+      border:1px solid rgba(15,23,42,0.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      padding:18px;
+      overflow:hidden;
+      position:relative;
+    }
+    .card:hover{border-color: rgba(245,158,11,0.25)}
+
+    .card h2{margin:0 0 10px;font-size:18px;letter-spacing:-0.2px}
+    .muted{color:var(--muted);font-size:14px;line-height:1.6}
+
+    .kv{display:grid;gap:10px;margin-top:8px}
+    .kv .row{display:flex;gap:12px;align-items:flex-start}
+    .kv .k{min-width:110px;font-weight:800;color: rgba(11,27,58,0.82)}
+    .kv .v{color: rgba(11,27,58,0.78)}
+
+    .agenda{display:grid;gap:10px;margin-top:8px}
+    .item{
+      display:flex;gap:10px;align-items:flex-start;
+      padding:10px 12px;
+      border-radius: 16px;
+      background: rgba(245,158,11,0.08);
+      border:1px solid rgba(245,158,11,0.18);
+    }
+    .n{
+      width:26px;height:26px;border-radius: 10px;
+      display:grid;place-items:center;
+      font-weight:900;
+      background: rgba(245,158,11,0.22);
+      border:1px solid rgba(245,158,11,0.28);
+      color:#5a3a00;
+      flex: 0 0 auto;
+      margin-top:1px;
+    }
+    .item .txt{font-weight:700}
+
+    .note{
+      margin-top:10px;
+      padding:12px;
+      border-radius: 18px;
+      background: rgba(11,27,58,0.06);
+      border:1px dashed rgba(11,27,58,0.18);
+      color: rgba(11,27,58,0.75);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .files{display:grid;gap:10px;margin-top:8px}
+    .file{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:12px 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.75);
+      border:1px solid rgba(15,23,42,0.10);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .file:hover{transform: translateY(-1px); border-color: rgba(245,158,11,0.25)}
+    .file .l{display:flex;gap:10px;align-items:center}
+    .ico{
+      width:36px;height:36px;border-radius: 16px;
+      display:grid;place-items:center;
+      background: rgba(245,158,11,0.12);
+      border:1px solid rgba(245,158,11,0.18);
+    }
+    .file .title{font-weight:900}
+    .file .sub{font-size:12px;color:var(--muted);margin:0}
+
+    .download{
+      text-decoration:none;
+      font-weight:900;
+      padding:10px 12px;
+      border-radius: 16px;
+      background: rgba(245,158,11,0.12);
+      border:1px solid rgba(245,158,11,0.22);
+      color:#5a3a00;
+      transition: transform .15s ease, background .15s ease;
+      white-space:nowrap;
+    }
+    .download:hover{transform: translateY(-1px); background: rgba(245,158,11,0.16)}
+
+    /* RSVP */
+    #rsvp .card{padding:20px}
+    .rsvp-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+    .pill{
+      font-size:12px;font-weight:900;
+      padding:7px 10px;border-radius:999px;
+      background: rgba(245,158,11,0.12);
+      border:1px solid rgba(245,158,11,0.20);
+      color:#5a3a00;
+      white-space:nowrap;
+      height: fit-content;
+    }
+
+    form{margin-top:12px}
+    .fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .field{display:grid;gap:6px}
+    label{font-size:13px;font-weight:800;color: rgba(11,27,58,0.78)}
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.82);
+      outline:none;
+      transition: border-color .15s ease, box-shadow .15s ease;
+      font-size:14px;
+    }
+    textarea{min-height:98px;resize:vertical}
+    input:focus, textarea:focus{
+      border-color: rgba(245,158,11,0.45);
+      box-shadow: 0 0 0 4px rgba(245,158,11,0.14);
+    }
+
+    .radio-group{
+      margin-top:12px;
+      display:grid;gap:10px;
+    }
+    .choice{
+      display:flex;gap:10px;align-items:flex-start;
+      padding:12px;
+      border-radius: 18px;
+      border:1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.72);
+      transition: transform .15s ease, border-color .15s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+    .choice:hover{transform: translateY(-1px); border-color: rgba(245,158,11,0.25)}
+    .choice input{width:18px;height:18px;margin-top:2px}
+    .choice .c-title{font-weight:900}
+    .choice .c-sub{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.5}
+
+    .inline-note{
+      margin-top:10px;
+      padding:12px;
+      border-radius: 18px;
+      background: rgba(245,158,11,0.08);
+      border:1px dashed rgba(245,158,11,0.25);
+      color: rgba(11,27,58,0.78);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .hidden{display:none}
+
+    .submit-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}
+    .btn-submit{
+      width: fit-content;
+      padding:13px 16px;
+      border-radius: 18px;
+      font-weight:950;
+    }
+    .status{font-size:13px;color:var(--muted)}
+
+    /* Footer */
+    footer{padding:26px 0 40px}
+    .foot{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:14px;
+      padding:18px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.65);
+      border:1px solid rgba(15,23,42,0.10);
+      box-shadow: var(--shadow-soft);
+    }
+    .foot .l{display:grid;gap:4px}
+    .foot .t{font-weight:950}
+    .foot .s{color:var(--muted);font-size:13px;line-height:1.6}
+
+    /* Reveal animations */
+    .reveal{opacity:0; transform: translateY(10px); transition: opacity .7s ease, transform .7s ease}
+    .reveal.show{opacity:1; transform: translateY(0)}
+
+
+    /* Extra polish */
+    .card::after{
+      content:"";
+      position:absolute; inset:-2px;
+      border-radius: var(--radius);
+      background: radial-gradient(420px 160px at 30% 0%, rgba(245,158,11,0.10), transparent 60%),
+                  radial-gradient(420px 160px at 90% 20%, rgba(11,27,58,0.08), transparent 65%);
+      opacity:0;
+      transition: opacity .25s ease;
+      pointer-events:none;
+    }
+    .card:hover::after{opacity:1}
+
+    .slider{transform: translateZ(0)}
+    .slider:hover{box-shadow: 0 22px 70px rgba(2,6,23,0.16)}
+
+    /* Scroll progress */
+    .progress{
+      position:fixed; left:0; top:0; height:3px; width:0%;
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+      z-index:10000;
+      box-shadow: 0 8px 20px rgba(245,158,11,0.25);
+    }
+
+    /* Soft section divider */
+    .divider{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(15,23,42,0.10), transparent);
+      margin: 8px 0 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      .slide{height:320px}
+      .grid{grid-template-columns:1fr}
+      .fields{grid-template-columns:1fr}
+      .brand{min-width:unset}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress" id="progress"></div>
+  <!-- INTRO OVERLAY (click letter or button to open) -->
+  <!-- INTRO PAGE (separate) -->
+  <div id="intro" aria-label="Màn hình thư mời" style="position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;">
+    <div style="position:absolute;inset:0;background:
+      radial-gradient(1100px 700px at 20% 10%, rgba(245,158,11,0.20), transparent 55%),
+      radial-gradient(900px 600px at 90% 20%, rgba(11,27,58,0.14), transparent 60%),
+      linear-gradient(180deg, #fffaf2, #ffffff 55%);"></div>
+
+    <div aria-hidden="true" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+      <img src="bg1.jpg" alt="" onerror="this.style.display='none'" style="position:absolute;left:-60px;bottom:-70px;width:520px;opacity:0.10;filter:blur(1px);transform:rotate(-7deg);" />
+      <img src="bg2.jpg" alt="" onerror="this.style.display='none'" style="position:absolute;right:-70px;top:-40px;width:520px;opacity:0.10;filter:blur(1px);transform:rotate(9deg);" />
+      <img src="bg3.jpg" alt="" onerror="this.style.display='none'" style="position:absolute;left:40%;top:-60px;width:420px;opacity:0.08;filter:blur(1px);transform:translateX(-50%) rotate(-2deg);" />
+      <img src="bg4.jpg" alt="" onerror="this.style.display='none'" style="position:absolute;right:10%;bottom:-80px;width:420px;opacity:0.08;filter:blur(1px);transform:rotate(3deg);" />
+
+      <div style="position:absolute;left:-60px;top:40px;width:420px;height:420px;border-radius:999px;background:rgba(245,158,11,0.10);"></div>
+      <div style="position:absolute;right:-90px;bottom:40px;width:520px;height:520px;border-radius:999px;background:rgba(11,27,58,0.08);"></div>
+    </div>
+
+    <div style="position:relative;max-width:880px;width:100%;display:grid;gap:16px;justify-items:center;">
+      <div style="text-align:center;max-width:720px;">
+        <div style="display:inline-flex;gap:10px;align-items:center;padding:8px 14px;border-radius:999px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.22);font-weight:900;color:#5a3a00;">
+          ✉️ THƯ MỜI CHÍNH THỨC
+        </div>
+        <h1 style="margin:14px 0 8px;font-size:34px;line-height:1.15;letter-spacing:-0.6px;color:#0b1b3a;">
+          Đại hội đồng cổ đông thường niên<br/>năm 2026
+        </h1>
+        <div style="color:rgba(11,27,58,0.78);line-height:1.7;font-size:15px;">
+          Công ty CP Du lịch - Dịch vụ Hội An (HOI AN TOURIST) trân trọng kính mời Quý Cổ đông tham dự.
+          <br/>Vui lòng nhấn vào thư mời để xem chi tiết.
+        </div>
+      </div>
+
+      <a href="#main" id="letterLink" style="text-decoration:none">
+        <div id="envelope" style="width:min(520px, 92vw);height:340px;border-radius:28px;position:relative;transform-origin:center;">
+          <div style="position:absolute;inset:0;border-radius:28px;background:linear-gradient(135deg, rgba(255,255,255,0.85), rgba(255,255,255,0.65));border:1px solid rgba(15,23,42,0.10);box-shadow:0 26px 70px rgba(2,6,23,0.18);overflow:hidden;">
+            <div style="position:absolute;inset:-2px;background:
+              radial-gradient(700px 260px at 25% 0%, rgba(245,158,11,0.22), transparent 55%),
+              radial-gradient(520px 260px at 90% 10%, rgba(11,27,58,0.14), transparent 60%);"></div>
+          </div>
+
+          <div style="position:absolute;left:0;right:0;top:0;height:55%;">
+            <div style="position:absolute;inset:0;clip-path:polygon(0 0, 100% 0, 50% 100%);background:linear-gradient(135deg, rgba(245,158,11,0.35), rgba(11,27,58,0.10));border-top-left-radius:28px;border-top-right-radius:28px;border:1px solid rgba(245,158,11,0.18);"></div>
+          </div>
+
+          <div style="position:absolute;left:24px;right:24px;top:32px;height:260px;border-radius:22px;background:rgba(255,255,255,0.92);border:1px solid rgba(15,23,42,0.10);box-shadow:0 18px 50px rgba(2,6,23,0.10);display:grid;place-items:center;padding:16px;">
+            <div style="text-align:center;display:grid;gap:6px;">
+              <div style="width:56px;height:56px;border-radius:18px;margin:0 auto;background:rgba(245,158,11,0.14);border:1px solid rgba(245,158,11,0.20);display:grid;place-items:center;overflow:hidden;">
+                <img src="logo.png" alt="Logo" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover" />
+              </div>
+              <div style="font-weight:950;letter-spacing:0.2px;color:#0b1b3a">THƯ MỜI</div>
+              <div style="font-weight:900;color:rgba(11,27,58,0.78)">ĐẠI HỘI ĐỒNG CỔ ĐÔNG 2026</div>
+              <div style="font-size:13px;color:rgba(11,27,58,0.65)">Công ty CP Du lịch - Dịch vụ Hội An</div>
+            </div>
+          </div>
+
+          <div style="position:absolute;left:0;right:0;bottom:0;height:55%;">
+            <div style="position:absolute;inset:0;clip-path:polygon(0 100%, 100% 100%, 50% 0);background:linear-gradient(135deg, rgba(245,158,11,0.22), rgba(255,255,255,0.40));border-bottom-left-radius:28px;border-bottom-right-radius:28px;border:1px solid rgba(15,23,42,0.06);"></div>
+          </div>
+
+          <div style="position:absolute;left:0;right:0;bottom:14px;text-align:center;color:rgba(11,27,58,0.70);font-size:13px;font-weight:800;">
+            Nhấn để mở ✨
+          </div>
+        </div>
+      </a>
+
+      <a href="#main" id="openBtn" style="display:inline-block;text-decoration:none;padding:12px 16px;border-radius:18px;font-weight:950;color:#1f1300;background:linear-gradient(135deg, #f59e0b, #f97316);box-shadow:0 18px 45px rgba(245,158,11,0.24);border:1px solid rgba(245,158,11,0.45);">
+        Mở thư mời
+      </a>
+
+      <div style="color:rgba(100,116,139,0.95);font-size:12px;text-align:center;max-width:720px;line-height:1.7;">
+        (Gợi ý: Bạn có thể thêm nhạc nền nhẹ. Mình đã để sẵn chỗ trong code để bạn bật/tắt sau.)
+      </div>
+
+      <!-- MUSIC PLACEHOLDER (later) -->
+      <audio id="bgMusic" src="music.mp3" loop></audio>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="main">
+  <div class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" title="HOI AN TOURIST">
+          <!-- Replace src with your logo file -->
+          <img src="logo.png" alt="Logo HOI AN TOURIST" onerror="this.style.display='none'" />
+        </div>
+        <div>
+          <div class="t1">HOI AN TOURIST</div>
+          <div class="t2">Thư mời Đại hội đồng cổ đông 2026</div>
+        </div>
+      </div>
+
+      <div class="nav">
+        <a class="chip" href="#thongtin">Thông tin</a>
+        <a class="chip" href="#chuongtrinh">Chương trình</a>
+        <a class="chip" href="#tailieu">Tài liệu</a>
+        <a class="cta" href="#rsvp">Xác nhận tham dự</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-card reveal">
+          <span class="badge">📩 THƯ MỜI CHÍNH THỨC</span>
+          <h1>Đại hội đồng cổ đông thường niên<br/>năm 2026</h1>
+          <p class="sub">
+            Công ty CP Du lịch - Dịch vụ Hội An (HOI AN TOURIST) trân trọng kính mời Quý Cổ đông
+            tham dự <b>Đại hội đồng cổ đông thường niên năm 2026</b>. Sự hiện diện của Quý vị là niềm vinh dự
+            và đóng góp quan trọng cho sự phát triển của Công ty.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="btnScroll">✅ Xác nhận tham dự</button>
+            <a class="btn btn-ghost" href="#tailieu" style="text-decoration:none;display:inline-flex;align-items:center;">📎 Xem tài liệu</a>
+          </div>
+
+          <div class="company">
+            <div class="name">CÔNG TY CP DU LỊCH - DỊCH VỤ HỘI AN</div>
+            <div class="alias">(HOI AN TOURIST)</div>
+          </div>
+        </div>
+
+        <!-- SLIDER -->
+        <div class="slider reveal" aria-label="Slideshow hình ảnh">
+          <div class="slides" id="slides">
+            <div class="slide" style="background-image:url('slide1.jpg'); background-size:cover; background-position:center;">
+              
+              <!-- <div class="cap">
+                <div class="t">Dấu ấn thương hiệu</div>
+                <div class="d">Giới thiệu hình ảnh hoạt động, dự án, và những khoảnh khắc tiêu biểu của Công ty.</div>
+              </div> -->
+            </div>
+            <div class="slide" style="background-image:url('slide2.jpg'); background-size:cover; background-position:center;">
+              <!-- <div class="cap">
+                <div class="t">Vì sự phát triển bền vững</div>
+                <div class="d">Hội nghị là dịp quan trọng để tổng kết, định hướng và ra quyết định chiến lược.</div>
+              </div> -->
+            </div>
+            <div class="slide" style="background-image:url('slide3.jpg'); background-size:cover; background-position:center;">
+              <!-- <div class="cap">
+                <div class="t">Kết nối cổ đông</div>
+                <div class="d">Cảm ơn Quý Cổ đông đã đồng hành cùng HOI AN TOURIST trong suốt thời gian qua.</div>
+              </div> -->
+            </div>
+            <div class="slide"style="background-image:url('slide4.jpg'); background-size:cover; background-position:center;">
+              <!-- <div class="cap">
+                <div class="t">Tầm nhìn & Sứ mệnh</div>
+                <div class="d">Tăng trưởng hiệu quả – nâng cao chất lượng dịch vụ – phát triển giá trị cho cổ đông.</div>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="slider-controls">
+            <button class="arrow" id="prev" aria-label="Slide trước">◀</button>
+            <div class="dots" id="dots"></div>
+            <button class="arrow" id="next" aria-label="Slide sau">▶</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="divider"></div>
+
+    <!-- INFO + AGENDA -->
+    <section id="thongtin">
+      <div class="grid">
+        <div class="card reveal">
+          <h2>📌 Thông tin hội nghị</h2>
+          <div class="kv">
+            <div class="row"><div class="k">Thời gian</div><div class="v"><b>07:30</b> ngày <b>22/04/2026</b> (Thứ Tư)</div></div>
+            <div class="row"><div class="k">Địa điểm</div><div class="v"><b>Hội trường Nhà hàng Khách sạn Hội An</b><br/>Số 10 Trần Hưng Đạo, phường Hội An, thành phố Đà Nẵng</div></div>
+            <div class="row"><div class="k">Hình thức</div><div class="v">Trực tiếp</div></div>
+          </div>
+          <div class="note">
+            Quý Cổ đông vui lòng đến sớm để hoàn tất thủ tục check-in và ổn định chỗ ngồi.
+          </div>
+        </div>
+
+        <div class="card reveal" id="chuongtrinh">
+          <h2>🗓️ Chương trình dự kiến</h2>
+          <div class="agenda">
+            <div class="item"><div class="n">1</div><div class="txt">Đón tiếp cổ đông – Kiểm tra tư cách tham dự</div></div>
+            <div class="item"><div class="n">2</div><div class="txt">Khai mạc Hội nghị</div></div>
+            <div class="item"><div class="n">3</div><div class="txt">Báo cáo hoạt động Hội đồng Quản trị</div></div>
+            <div class="item"><div class="n">4</div><div class="txt">Báo cáo kết quả kinh doanh – Báo cáo tài chính đã kiểm toán</div></div>
+            <div class="item"><div class="n">5</div><div class="txt">Trình bày các Tờ trình – Thảo luận – Biểu quyết</div></div>
+            <div class="item"><div class="n">6</div><div class="txt">Thông qua Nghị quyết Hội nghị</div></div>
+            <div class="item"><div class="n">7</div><div class="txt">Bế mạc</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTES + DOCUMENTS -->
+    <section>
+      <div class="grid">
+        <div class="card reveal">
+          <h2>⚠️ Lưu ý quan trọng</h2>
+          <div class="muted">
+            <ul style="margin:10px 0 0 18px; padding:0; line-height:1.8;">
+              <li>Hạn xác nhận tham dự: <b>…</b> (bạn điền sau)</li>
+              <li>Thời gian check-in: <b>…</b> (bạn điền sau)</li>
+              <li>Vui lòng mang theo <b>CCCD/CMND</b> hoặc giấy tờ tùy thân hợp lệ</li>
+              <li>Trường hợp ủy quyền: chuẩn bị giấy ủy quyền theo mẫu của Công ty</li>
+              <li>Trang phục: lịch sự, trang trọng</li>
+            </ul>
+          </div>
+          <div class="note">
+            Mọi thắc mắc vui lòng liên hệ Hotline/Email ở cuối trang để được hỗ trợ.
+          </div>
+        </div>
+
+        <div class="card reveal" id="tailieu">
+          <h2>📎 Tài liệu đính kèm</h2>
+          <p class="muted" style="margin:0 0 10px">(Bạn thay link tải file thật sau)</p>
+
+          <div class="files">
+            <div class="file">
+              <div class="l">
+                <div class="ico">📄</div>
+                <div>
+                  <div class="title">Thư mời (PDF)</div>
+                  <p class="sub">Tải bản thư mời chính thức</p>
+                </div>
+              </div>
+              <a class="download" href="/20260330 THONG BAO MOI HOP DHDCD 2025.docx" onclick="return false">Tải</a>
+            </div>
+
+            <div class="file">
+              <div class="l">
+                <div class="ico">🗂️</div>
+                <div>
+                  <div class="title">Mẫu giấy đăng ký tham dự</div>
+                  <p class="sub">Dành cho trường hợp cổ đông trực tiếp tham dự</p>
+                </div>
+              </div>
+              <a class="download" href="/3. MAU GIAY DANG KY THAM DU.pdf" onclick="return false">Tải</a>
+            </div>
+
+            <div class="file">
+              <div class="l">
+                <div class="ico">✍️</div>
+                <div>
+                  <div class="title">Mẫu giấy ủy quyền</div>
+                  <p class="sub">Dành cho trường hợp cổ đông không trực tiếp tham dự</p>
+                </div>
+              </div>
+              <a class="download" href="/4. MAU GIAY UY QUYEN.pdf" onclick="return false">Tải</a>
+            </div>
+
+            <div class="note" style="margin-top:10px">
+              <b>Ghi chú:</b> Trường hợp Quý Cổ đông <b>ủy quyền</b>, Công ty sẽ gửi <b>Giấy ủy quyền bản cứng</b>
+              theo đường bưu điện (hoặc Quý Cổ đông có thể tải mẫu tại đây để chủ động chuẩn bị).
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="rsvp">
+      <div class="card reveal">
+        <div class="rsvp-head">
+          <div>
+            <h2 style="margin:0 0 6px">📝 Xác nhận tham dự</h2>
+            <div class="muted">Vui lòng điền thông tin để Công ty ghi nhận. (Thời gian khoảng 30 giây)</div>
+          </div>
+          <div class="pill">Chọn 1 trong 3</div>
+        </div>
+
+        <form id="rsvpForm">
+          <div class="fields">
+            <div class="field">
+              <label for="fullName">Tên cổ đông/đại diện cổ đông <span style="color:#ef4444">*</span></label>
+              <input id="fullName" name="fullName" placeholder="VD: Nguyễn Văn A" required />
+            </div>
+
+            <div class="field">
+              <label for="idNumber">Số CMND/CCCD <span style="color:#ef4444">*</span></label>
+              <input id="idNumber" name="idNumber" placeholder="VD: 0xxxxxxxxxxxx" required />
+            </div>
+<div class="field" style="grid-column:1/-1">
+              <label for="address">Địa chỉ thường trú (tùy chọn)</label>
+              <input id="address" name="address" placeholder="VD: 90/10 Hùng Vương, TP. Hội An" />
+            </div>
+
+            <div class="field">
+              <label for="phone">Điện thoại (tùy chọn)</label>
+              <input id="phone" name="phone" placeholder="VD: 09xxxxxxxx" />
+            </div>
+
+            <div class="field">
+              <label for="email">Email (tùy chọn)</label>
+              <input id="email" name="email" type="email" placeholder="VD: co.dong@email.com" />
+            </div>
+          </div>
+
+          <div class="radio-group" style="margin-top:14px">
+            <label style="margin-bottom:2px">Xác nhận tham dự</label>
+
+            <div class="choice" data-choice="self">
+              <input type="radio" name="attendance" value="SELF" id="cSelf" required />
+              <div>
+                <div class="c-title">Tự tham dự</div>
+                <div class="c-sub">Quý Cổ đông sẽ trực tiếp tham dự Hội nghị.</div>
+              </div>
+            </div>
+
+            <div class="choice" data-choice="no">
+              <input type="radio" name="attendance" value="NO" id="cNo" required />
+              <div>
+                <div class="c-title">Không tham dự</div>
+                <div class="c-sub">Quý Cổ đông không thể tham dự Hội nghị.</div>
+              </div>
+            </div>
+
+            <div class="choice" data-choice="delegate">
+              <input type="radio" name="attendance" value="DELEGATE" id="cDelegate" required />
+              <div>
+                <div class="c-title">Ủy quyền người khác</div>
+                <div class="c-sub">Cổ đông ủy quyền cho người khác tham dự thay.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reason (only when NO) -->
+          <div id="noBlock" class="hidden" style="margin-top:12px">
+            <div class="field">
+              <label for="reason">Lý do (tùy chọn)</label>
+              <textarea id="reason" name="reason" placeholder="VD: Bận công tác, không thể tham dự đúng thời gian..."></textarea>
+            </div>
+          </div>
+
+          <!-- Delegate (only when DELEGATE) -->
+          <div id="delegateBlock" class="hidden" style="margin-top:12px">
+            <div class="fields">
+              <div class="field">
+                <label for="delegateName">Họ và tên người được ủy quyền <span style="color:#ef4444">*</span></label>
+                <input id="delegateName" name="delegateName" placeholder="VD: Trần Thị B" />
+              </div>
+
+              <div class="field">
+                <label for="delegateId">Số CMND/CCCD người được ủy quyền <span style="color:#ef4444">*</span></label>
+                <input id="delegateId" name="delegateId" placeholder="VD: 0xxxxxxxxxxxx" />
+              </div>
+<div class="field" style="grid-column:1/-1">
+                <label for="delegateAddress">Địa chỉ thường trú (tùy chọn)</label>
+                <input id="delegateAddress" name="delegateAddress" placeholder="VD: 123 Trần Hưng Đạo, TP. Hội An" />
+              </div>
+
+              <div class="field">
+                <label for="delegatePhone">Điện thoại (tùy chọn)</label>
+                <input id="delegatePhone" name="delegatePhone" placeholder="VD: 09xxxxxxxx" />
+              </div>
+
+              <div class="field">
+                <label for="delegateEmail">Email (tùy chọn)</label>
+                <input id="delegateEmail" name="delegateEmail" type="email" placeholder="VD: uyquyen@email.com" />
+              </div>
+            </div>
+
+            <div class="inline-note">
+              <b>Lưu ý:</b> Việc ủy quyền mặc định bao gồm quyền <b>tham dự và biểu quyết thay</b> theo quy định của Công ty.
+            </div>
+          </div>
+
+          <div class="submit-row">
+            <button class="btn btn-primary btn-submit" type="submit">📨 Gửi xác nhận</button>
+            <div class="status" id="status">Dữ liệu sẽ được ghi nhận vào hệ thống của Công ty.</div>
+          </div>
+
+          <div class="note" style="margin-top:12px">
+            Thông tin Quý Cổ đông cung cấp chỉ phục vụ cho công tác tổ chức Hội nghị.
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="foot reveal">
+        <div class="l">
+          <div class="t">Công ty CP Du lịch - Dịch vụ Hội An (HOI AN TOURIST)</div>
+          <div class="s">Địa chỉ: Số 10 Trần Hưng Đạo, phường Hội An, thành phố Đà Nẵng</div>
+          <div class="s">Hotline: 0235 3910 885 | Website: www.hoiantourist.com</div>
+        </div>
+        <div class="s">© <span id="y"></span> HOI AN TOURIST</div>
+      </div>
+    </footer>
+  </div>
+  </main>
+
+  <script>
+    // -----------------------------
+    // Intro: open letter + fade overlay
+    // -----------------------------
+    // Intro (simple + safe): scroll to main, then hide overlay
+    const intro = document.getElementById('intro');
+    const letterLink = document.getElementById('letterLink');
+    const openBtn = document.getElementById('openBtn');
+
+    function hideIntro(){
+      if(!intro) return;
+      intro.classList.add('hide');
+      setTimeout(() => {
+        intro.style.display = 'none';
+      }, 380);
+    }
+
+    function openMain(e){
+      e.preventDefault();
+      const main = document.getElementById('main');
+      if(main) main.scrollIntoView({behavior:'smooth', block:'start'});
+      setTimeout(hideIntro, 260);
+
+      // OPTIONAL MUSIC (later)
+      const m = document.getElementById('bgMusic');
+      if(m) m.play().catch(()=>{});
+    }
+
+    if(letterLink) letterLink.addEventListener('click', openMain);
+    if(openBtn) openBtn.addEventListener('click', openMain);
+
+    // -----------------------------
+    // Helpers
+    // -----------------------------
+    const $ = (q, el=document) => el.querySelector(q);
+    const $$ = (q, el=document) => Array.from(el.querySelectorAll(q));
+
+    // Year
+    $('#y').textContent = new Date().getFullYear();
+
+    // Smooth scroll button
+    $('#btnScroll').addEventListener('click', () => {
+      $('#rsvp').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+
+    // -----------------------------
+    // Reveal on scroll
+    // -----------------------------
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting) e.target.classList.add('show');
+      });
+    }, {threshold: 0.12});
+
+    $$('.reveal').forEach(el => io.observe(el));
+
+    // -----------------------------
+    // Slideshow
+    // -----------------------------
+    const slides = $('#slides');
+    const slideCount = $$('.slide', slides).length;
+    const dots = $('#dots');
+    let idx = 0;
+    let timer = null;
+
+    function renderDots(){
+      dots.innerHTML = '';
+      for(let i=0;i<slideCount;i++){
+        const d = document.createElement('button');
+        d.className = 'dot' + (i===idx ? ' active' : '');
+        d.type = 'button';
+        d.setAttribute('aria-label', 'Chuyển đến slide ' + (i+1));
+        d.addEventListener('click', () => go(i));
+        dots.appendChild(d);
+      }
+    }
+
+    function go(i){
+      idx = (i + slideCount) % slideCount;
+      slides.style.transform = `translateX(${-idx*100}%)`;
+      renderDots();
+      restart();
+    }
+
+    function next(){ go(idx+1); }
+    function prev(){ go(idx-1); }
+
+    function restart(){
+      if(timer) clearInterval(timer);
+      timer = setInterval(next, 5200);
+    }
+
+    $('#next').addEventListener('click', next);
+    $('#prev').addEventListener('click', prev);
+
+    // init
+    renderDots();
+    restart();
+
+    // -----------------------------
+    // RSVP dynamic blocks
+    // -----------------------------
+    const noBlock = $('#noBlock');
+    const delegateBlock = $('#delegateBlock');
+
+    const delegateName = $('#delegateName');
+    const delegateId = $('#delegateId');
+    const delegateAddress = $('#delegateAddress');
+    const delegatePhone = $('#delegatePhone');
+    const delegateEmail = $('#delegateEmail');
+
+    function setChoice(v){
+      // hide all
+      noBlock.classList.add('hidden');
+      delegateBlock.classList.add('hidden');
+
+      // clear required
+      delegateName.required = false;
+      delegateId.required = false;
+      // delegateAddress is optional
+      delegateAddress.required = false;
+      delegatePhone.required = false;
+      delegateEmail.required = false;
+
+      if(v === 'NO'){
+        noBlock.classList.remove('hidden');
+      }
+      if(v === 'DELEGATE'){
+        delegateBlock.classList.remove('hidden');
+        delegateName.required = true;
+        delegateId.required = true;
+        // delegateAddress is optional
+      }
+    }
+
+    $$('input[name="attendance"]').forEach(r => {
+      r.addEventListener('change', (e) => setChoice(e.target.value));
+    });
+
+    // Make the whole card clickable
+    $$('.choice').forEach(ch => {
+      ch.addEventListener('click', () => {
+        const v = ch.querySelector('input').value;
+        ch.querySelector('input').checked = true;
+        setChoice(v);
+      });
+    });
+
+    // -----------------------------
+    // Submit to Google Apps Script
+    // -----------------------------
+    // Paste your deployed Apps Script URL here later.
+    // Example:
+    // const ENDPOINT = "https://script.google.com/macros/s/XXXX/exec";
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbyPfIDwheoyINljzajbLjEHMWO7cj1BSnZM8HB2XlR4HiXL92HLAftFU0p-sDVf58Welw/exec";
+
+    const form = $('#rsvpForm');
+    // Safety: if something fails, never block the whole page
+    if(!form){
+      console.warn('RSVP form not found');
+    }
+    const status = $('#status');
+
+    function setStatus(msg, mode='info'){
+      status.textContent = msg;
+      status.style.color = mode === 'error' ? '#b91c1c' : (mode === 'ok' ? '#0f766e' : '');
+    }
+
+    if(form) form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Basic validation for endpoint
+      if(!ENDPOINT){
+        setStatus('Chưa cấu hình nơi nhận dữ liệu (Apps Script). Bạn dán link ENDPOINT vào code là xong.', 'error');
+        return;
+      }
+
+      const data = {
+        fullName: $('#fullName').value.trim(),
+        idNumber: $('#idNumber').value.trim(),
+        address: $('#address').value.trim(),
+        phone: $('#phone').value.trim(),
+        email: $('#email').value.trim(),
+
+        attendance: ($('input[name="attendance"]:checked')||{}).value || '',
+        reason: $('#reason').value.trim(),
+
+        delegateName: $('#delegateName').value.trim(),
+        delegateId: $('#delegateId').value.trim(),
+        delegateAddress: $('#delegateAddress').value.trim(),
+        delegatePhone: $('#delegatePhone').value.trim(),
+        delegateEmail: $('#delegateEmail').value.trim(),
+
+        source: 'HOI AN TOURIST - RSVP WEB',
+        tsClient: new Date().toISOString()
+      };
+
+      // Final logic checks
+      if(!data.fullName || !data.idNumber || !data.attendance){
+        setStatus('Vui lòng điền đầy đủ thông tin bắt buộc và chọn hình thức tham dự.', 'error');
+        return;
+      }
+
+      if(data.attendance === 'DELEGATE'){
+        if(!data.delegateName || !data.delegateId){
+          setStatus('Vui lòng điền đầy đủ thông tin người được ủy quyền.', 'error');
+          return;
+        }
+      }
+
+      // UI lock
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.style.opacity = '0.75';
+      setStatus('Đang gửi xác nhận...');
+
+      try{
+        // Send as JSON
+        const res = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data)
+        });
+
+        const text = await res.text();
+
+        // Accept "OK" or JSON
+        if(res.ok){
+          setStatus('Đã ghi nhận! Công ty xin trân trọng cảm ơn Quý Cổ đông.', 'ok');
+          form.reset();
+          noBlock.classList.add('hidden');
+          delegateBlock.classList.add('hidden');
+        }else{
+          setStatus('Gửi thất bại. Vui lòng thử lại hoặc liên hệ hotline. (' + text + ')', 'error');
+        }
+      } catch (err){
+        setStatus('Không thể kết nối máy chủ nhận dữ liệu. Vui lòng thử lại. (' + err.message + ')', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.style.opacity = '';
+      }
+    });
+
+    // -----------------------------
+    // Extra effects
+    // -----------------------------
+    const progress = document.getElementById('progress');
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+      if(progress) progress.style.width = Math.max(0, Math.min(1, scrolled)) * 100 + '%';
+    }, {passive:true});
+
+    // Tiny tilt on envelope
+    const env = document.getElementById('envelope');
+    if(env){
+      env.addEventListener('mousemove', (e) => {
+        const r = env.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        env.style.transform = `rotateX(${(-py*4).toFixed(2)}deg) rotateY(${(px*6).toFixed(2)}deg) translateY(-2px)`;
+      });
+      env.addEventListener('mouseleave', () => {
+        env.style.transform = '';
+      });
+    }
+
+  </script>
+</body>
+</html>
