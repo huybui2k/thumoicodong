@@ -692,8 +692,8 @@
           <h2>⚠️ Lưu ý quan trọng</h2>
           <div class="muted">
             <ul style="margin:10px 0 0 18px; padding:0; line-height:1.8;">
-              <li>Hạn xác nhận tham dự: <b>…</b> (bạn điền sau)</li>
-              <li>Thời gian check-in: <b>…</b> (bạn điền sau)</li>
+             
+              <li>Thời gian check-in: <b>07:30 ngày 22/04/2026 (Thứ Tư)</b></li>
               <li>Vui lòng mang theo <b>CCCD/CMND</b> hoặc giấy tờ tùy thân hợp lệ</li>
               <li>Trường hợp ủy quyền: chuẩn bị giấy ủy quyền theo mẫu của Công ty</li>
               <li>Trang phục: lịch sự, trang trọng</li>
@@ -1110,12 +1110,12 @@
         const text = await res.text();
 
         // Accept "OK" or JSON
-        if(res.ok){
-          setStatus('Đã ghi nhận! Công ty xin trân trọng cảm ơn Quý Cổ đông.', 'ok');
-          form.reset();
-          noBlock.classList.add('hidden');
-          delegateBlock.classList.add('hidden');
-        }else{
+      if(res.ok){
+  form.reset();
+  noBlock.classList.add('hidden');
+  delegateBlock.classList.add('hidden');
+  showSuccessModal();
+}else{
           setStatus('Gửi thất bại. Vui lòng thử lại hoặc liên hệ hotline. (' + text + ')', 'error');
         }
       } catch (err){
@@ -1149,7 +1149,131 @@
         env.style.transform = '';
       });
     }
+let successTimer;
 
+function showSuccessModal(){
+  const m = document.getElementById('successModal');
+  if(!m) return;
+
+  m.style.display = 'flex';
+
+  // Tự đóng sau 20 giây (nhẹ nhàng, trang trọng)
+  successTimer = setTimeout(()=>{
+    closeSuccessModal();
+  },20000);
+}
+
+function closeSuccessModal(){
+  const m = document.getElementById('successModal');
+  if(!m) return;
+
+  m.style.display = 'none';
+  if(successTimer) clearTimeout(successTimer);
+}
   </script>
+  <!-- SUCCESS MODAL -->
+<div id="successModal" class="success-overlay">
+  <div class="success-box">
+
+    <div class="success-icon">✓</div>
+
+    <h3 class="success-title">Xác nhận thành công</h3>
+
+    <div class="success-text">
+      Công ty CP DL - DV Hội An (HOIAN TOURIST) xin trân trọng cảm ơn 
+      Quý Cổ đông đã phản hồi tham dự Đại hội đồng cổ đông thường niên năm 2026.
+      <br><br>
+      Thông tin của Quý Cổ Đông đã được ghi nhận vào hệ thống.
+      <br>
+      Hẹn gặp Quý Cổ Đông tại Hội nghị.
+    </div>
+
+    <button class="success-btn" onclick="closeSuccessModal()">Đóng</button>
+
+  </div>
+</div>
+
+<style>
+.success-overlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(2,6,23,0.55);
+  backdrop-filter:blur(6px);
+  z-index:99999;
+  animation:fadeOverlay .35s ease;
+}
+
+.success-box{
+  width:min(480px,92vw);
+  background:#fff;
+  border-radius:28px;
+  padding:30px 26px;
+  text-align:center;
+  box-shadow:0 30px 90px rgba(2,6,23,0.25);
+  border:1px solid rgba(245,158,11,0.25);
+  animation:modalUp .4s ease;
+}
+
+.success-icon{
+  width:78px;
+  height:78px;
+  margin:0 auto 18px;
+  border-radius:24px;
+  display:grid;
+  place-items:center;
+  font-size:34px;
+  font-weight:900;
+  color:#fff;
+  background:linear-gradient(135deg,#f59e0b,#f97316);
+  box-shadow:0 14px 40px rgba(245,158,11,0.35);
+  animation:popCheck .45s ease;
+}
+
+.success-title{
+  margin:0 0 12px;
+  font-size:20px;
+  font-weight:900;
+  color:#0b1b3a;
+}
+
+.success-text{
+  font-size:14px;
+  line-height:1.7;
+  color:#475569;
+  margin-bottom:22px;
+}
+
+.success-btn{
+  padding:12px 20px;
+  border-radius:18px;
+  border:none;
+  font-weight:900;
+  background:linear-gradient(135deg,#f59e0b,#f97316);
+  color:#1f1300;
+  cursor:pointer;
+  transition:.2s;
+}
+.success-btn:hover{
+  transform:translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeOverlay{
+  from{opacity:0}
+  to{opacity:1}
+}
+@keyframes modalUp{
+  from{transform:translateY(25px) scale(.96);opacity:0}
+  to{transform:translateY(0) scale(1);opacity:1}
+}
+@keyframes popCheck{
+  0%{transform:scale(.6);opacity:0}
+  60%{transform:scale(1.15)}
+  100%{transform:scale(1);opacity:1}
+}
+</style>
 </body>
 </html>
