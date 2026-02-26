@@ -513,7 +513,7 @@
           ✉️ THƯ MỜI CHÍNH THỨC
         </div>
         <h1 style="margin:14px 0 8px;font-size:34px;line-height:1.15;letter-spacing:-0.6px;color:#0b1b3a;">
-          Đại hội đồng cổ đông thường niên<br/>năm 2026
+          Phiên họp đại hội đồng cổ đông thường niên<br/>năm 2026
         </h1>
         <div style="color:rgba(11,27,58,0.78);line-height:1.7;font-size:15px;">
           Công ty CP Du lịch - Dịch vụ Hội An (HOI AN TOURIST) trân trọng kính mời Quý Cổ đông tham dự.
@@ -539,7 +539,7 @@
                 <img src="logo.png" alt="Logo" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover" />
               </div>
               <div style="font-weight:950;letter-spacing:0.2px;color:#0b1b3a">THƯ MỜI</div>
-              <div style="font-weight:900;color:rgba(11,27,58,0.78)">ĐẠI HỘI ĐỒNG CỔ ĐÔNG 2026</div>
+              <div style="font-weight:900;color:rgba(11,27,58,0.78)">Phiên họp đại hội đồng CỔ ĐÔNG 2026</div>
               <div style="font-size:13px;color:rgba(11,27,58,0.65)">Công ty CP Du lịch - Dịch vụ Hội An</div>
             </div>
           </div>
@@ -578,7 +578,7 @@
         </div>
         <div>
           <div class="t1">HOI AN TOURIST</div>
-          <div class="t2">Thư mời Đại hội đồng cổ đông 2026</div>
+          <div class="t2">Thư mời Phiên họp đại hội đồng cổ đông 2026</div>
         </div>
       </div>
 
@@ -597,10 +597,10 @@
       <div class="hero-grid">
         <div class="hero-card reveal">
           <span class="badge">📩 THƯ MỜI CHÍNH THỨC</span>
-          <h1>Đại hội đồng cổ đông thường niên<br/>năm 2026</h1>
+          <h1>Phiên họp đại hội đồng cổ đông thường niên<br/>năm 2026</h1>
           <p class="sub">
             Công ty CP Du lịch - Dịch vụ Hội An (HOI AN TOURIST) trân trọng kính mời Quý Cổ đông
-            tham dự <b>Đại hội đồng cổ đông thường niên năm 2026</b>. Sự hiện diện của Quý vị là niềm vinh dự
+            tham dự <b>Phiên họp đại hội đồng cổ đông thường niên năm 2026</b>. Sự hiện diện của Quý vị là niềm vinh dự
             và đóng góp quan trọng cho sự phát triển của Công ty.
           </p>
 
@@ -816,7 +816,25 @@
               </div>
             </div>
           </div>
+<!-- Shares - Self -->
+<div id="selfShareBlock" class="hidden" style="margin-top:12px">
+  <div class="field">
+    <label for="selfShares">
+      Số cổ phiếu tự tham dự <span style="color:#ef4444">*</span>
+    </label>
+    <input id="selfShares" type="number" min="1" placeholder="VD: 1000">
+  </div>
+</div>
 
+<!-- Shares - Delegate -->
+<div id="delegateShareBlock" class="hidden" style="margin-top:12px">
+  <div class="field">
+    <label for="delegateShares">
+      Số cổ phiếu ủy quyền <span style="color:#ef4444">*</span>
+    </label>
+    <input id="delegateShares" type="number" min="1" placeholder="VD: 1000">
+  </div>
+</div>
           <!-- Reason (only when NO) -->
           <div id="noBlock" class="hidden" style="margin-top:12px">
             <div class="field">
@@ -985,146 +1003,151 @@
     // -----------------------------
     // RSVP dynamic blocks
     // -----------------------------
-    const noBlock = $('#noBlock');
-    const delegateBlock = $('#delegateBlock');
+   const noBlock = $('#noBlock');
+const delegateBlock = $('#delegateBlock');
+const selfShareBlock = $('#selfShareBlock');
+const delegateShareBlock = $('#delegateShareBlock');
 
-    const delegateName = $('#delegateName');
-    const delegateId = $('#delegateId');
-    const delegateAddress = $('#delegateAddress');
-    const delegatePhone = $('#delegatePhone');
-    const delegateEmail = $('#delegateEmail');
+const delegateName = $('#delegateName');
+const delegateId = $('#delegateId');
+const selfShares = $('#selfShares');
+const delegateShares = $('#delegateShares');
 
-    function setChoice(v){
-      // hide all
-      noBlock.classList.add('hidden');
-      delegateBlock.classList.add('hidden');
+function setChoice(v){
 
-      // clear required
-      delegateName.required = false;
-      delegateId.required = false;
-      // delegateAddress is optional
-      delegateAddress.required = false;
-      delegatePhone.required = false;
-      delegateEmail.required = false;
-
-      if(v === 'NO'){
-        noBlock.classList.remove('hidden');
-      }
-      if(v === 'DELEGATE'){
-        delegateBlock.classList.remove('hidden');
-        delegateName.required = true;
-        delegateId.required = true;
-        // delegateAddress is optional
-      }
-    }
-
-    $$('input[name="attendance"]').forEach(r => {
-      r.addEventListener('change', (e) => setChoice(e.target.value));
-    });
-
-    // Make the whole card clickable
-    $$('.choice').forEach(ch => {
-      ch.addEventListener('click', () => {
-        const v = ch.querySelector('input').value;
-        ch.querySelector('input').checked = true;
-        setChoice(v);
-      });
-    });
-
-    // -----------------------------
-    // Submit to Google Apps Script
-    // -----------------------------
-    // Paste your deployed Apps Script URL here later.
-    // Example:
-    // const ENDPOINT = "https://script.google.com/macros/s/XXXX/exec";
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbyPfIDwheoyINljzajbLjEHMWO7cj1BSnZM8HB2XlR4HiXL92HLAftFU0p-sDVf58Welw/exec";
-
-    const form = $('#rsvpForm');
-    // Safety: if something fails, never block the whole page
-    if(!form){
-      console.warn('RSVP form not found');
-    }
-    const status = $('#status');
-
-    function setStatus(msg, mode='info'){
-      status.textContent = msg;
-      status.style.color = mode === 'error' ? '#b91c1c' : (mode === 'ok' ? '#0f766e' : '');
-    }
-
-    if(form) form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Basic validation for endpoint
-      if(!ENDPOINT){
-        setStatus('Chưa cấu hình nơi nhận dữ liệu (Apps Script). Bạn dán link ENDPOINT vào code là xong.', 'error');
-        return;
-      }
-
-      const data = {
-        fullName: $('#fullName').value.trim(),
-        idNumber: $('#idNumber').value.trim(),
-        address: $('#address').value.trim(),
-        phone: $('#phone').value.trim(),
-        email: $('#email').value.trim(),
-
-        attendance: ($('input[name="attendance"]:checked')||{}).value || '',
-        reason: $('#reason').value.trim(),
-
-        delegateName: $('#delegateName').value.trim(),
-        delegateId: $('#delegateId').value.trim(),
-        delegateAddress: $('#delegateAddress').value.trim(),
-        delegatePhone: $('#delegatePhone').value.trim(),
-        delegateEmail: $('#delegateEmail').value.trim(),
-
-        source: 'HOI AN TOURIST - RSVP WEB',
-        tsClient: new Date().toISOString()
-      };
-
-      // Final logic checks
-      if(!data.fullName || !data.idNumber || !data.attendance){
-        setStatus('Vui lòng điền đầy đủ thông tin bắt buộc và chọn hình thức tham dự.', 'error');
-        return;
-      }
-
-      if(data.attendance === 'DELEGATE'){
-        if(!data.delegateName || !data.delegateId){
-          setStatus('Vui lòng điền đầy đủ thông tin người được ủy quyền.', 'error');
-          return;
-        }
-      }
-
-      // UI lock
-      const btn = form.querySelector('button[type="submit"]');
-      btn.disabled = true;
-      btn.style.opacity = '0.75';
-      setStatus('Đang gửi xác nhận...');
-
-      try{
-        // Send as JSON
-        const res = await fetch(ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(data)
-        });
-
-        const text = await res.text();
-
-        // Accept "OK" or JSON
-      if(res.ok){
-  form.reset();
   noBlock.classList.add('hidden');
   delegateBlock.classList.add('hidden');
-  showSuccessModal();
-}else{
-          setStatus('Gửi thất bại. Vui lòng thử lại hoặc liên hệ hotline. (' + text + ')', 'error');
-        }
-      } catch (err){
-        setStatus('Không thể kết nối máy chủ nhận dữ liệu. Vui lòng thử lại. (' + err.message + ')', 'error');
-      } finally {
-        btn.disabled = false;
-        btn.style.opacity = '';
-      }
+  selfShareBlock.classList.add('hidden');
+  delegateShareBlock.classList.add('hidden');
+
+  delegateName.required = false;
+  delegateId.required = false;
+  selfShares.required = false;
+  delegateShares.required = false;
+
+  if(v === 'SELF'){
+    selfShareBlock.classList.remove('hidden');
+    selfShares.required = true;
+  }
+
+  if(v === 'NO'){
+    noBlock.classList.remove('hidden');
+  }
+
+  if(v === 'DELEGATE'){
+    delegateBlock.classList.remove('hidden');
+    delegateShareBlock.classList.remove('hidden');
+
+    delegateName.required = true;
+    delegateId.required = true;
+    delegateShares.required = true;
+  }
+}
+
+$$('input[name="attendance"]').forEach(r => {
+  r.addEventListener('change', (e) => setChoice(e.target.value));
+});
+
+$$('.choice').forEach(ch => {
+  ch.addEventListener('click', () => {
+    const v = ch.querySelector('input').value;
+    ch.querySelector('input').checked = true;
+    setChoice(v);
+  });
+});
+
+// -----------------------------
+// Submit to Google Apps Script
+// -----------------------------
+
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbyPfIDwheoyINljzajbLjEHMWO7cj1BSnZM8HB2XlR4HiXL92HLAftFU0p-sDVf58Welw/exec";
+
+const form = $('#rsvpForm');
+const status = $('#status');
+
+function setStatus(msg, mode='info'){
+  status.textContent = msg;
+  status.style.color = mode === 'error' ? '#b91c1c' : '';
+}
+
+if(form) form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const data = {
+    fullName: $('#fullName').value.trim(),
+    idNumber: $('#idNumber').value.trim(),
+    address: $('#address').value.trim(),
+    phone: $('#phone').value.trim(),
+    email: $('#email').value.trim(),
+
+    attendance: ($('input[name="attendance"]:checked')||{}).value || '',
+    selfShares: $('#selfShares').value.trim(),
+    delegateShares: $('#delegateShares').value.trim(),
+    reason: $('#reason').value.trim(),
+
+    delegateName: $('#delegateName').value.trim(),
+    delegateId: $('#delegateId').value.trim(),
+    delegateAddress: $('#delegateAddress').value.trim(),
+    delegatePhone: $('#delegatePhone').value.trim(),
+    delegateEmail: $('#delegateEmail').value.trim(),
+
+    source: 'HOI AN TOURIST - RSVP WEB',
+    tsClient: new Date().toISOString()
+  };
+
+  if(!data.fullName || !data.idNumber || !data.attendance){
+    setStatus('Vui lòng điền đầy đủ thông tin bắt buộc.', 'error');
+    return;
+  }
+
+  if(data.attendance === 'SELF' && !data.selfShares){
+    setStatus('Vui lòng nhập số cổ phiếu tự tham dự.', 'error');
+    return;
+  }
+
+  if(data.attendance === 'DELEGATE'){
+    if(!data.delegateName || !data.delegateId){
+      setStatus('Vui lòng điền đầy đủ thông tin người được ủy quyền.', 'error');
+      return;
+    }
+    if(!data.delegateShares){
+      setStatus('Vui lòng nhập số cổ phiếu ủy quyền.', 'error');
+      return;
+    }
+  }
+
+  const btn = form.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.style.opacity = '0.75';
+  setStatus('Đang gửi xác nhận...');
+
+  try{
+    const res = await fetch(ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(data)
     });
+
+    const text = await res.text();
+
+    if(res.ok && text === "OK"){
+      form.reset();
+      noBlock.classList.add('hidden');
+      delegateBlock.classList.add('hidden');
+      selfShareBlock.classList.add('hidden');
+      delegateShareBlock.classList.add('hidden');
+      showSuccessModal();
+    }else{
+      setStatus('Gửi thất bại: ' + text, 'error');
+    }
+
+  }catch(err){
+    setStatus('Lỗi kết nối: ' + err.message, 'error');
+  }finally{
+    btn.disabled = false;
+    btn.style.opacity = '';
+  }
+});
 
     // -----------------------------
     // Extra effects
@@ -1181,7 +1204,7 @@ function closeSuccessModal(){
 
     <div class="success-text">
       Công ty CP DL - DV Hội An (HOIAN TOURIST) xin trân trọng cảm ơn 
-      Quý Cổ đông đã phản hồi tham dự Đại hội đồng cổ đông thường niên năm 2026.
+      Quý Cổ đông đã phản hồi tham dự Phiên họp đại hội đồng cổ đông thường niên năm 2026.
       <br><br>
       Thông tin của Quý Cổ Đông đã được ghi nhận vào hệ thống.
       <br>
