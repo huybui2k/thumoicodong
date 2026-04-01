@@ -836,7 +836,6 @@
               <label for="phone">Điện thoại <span style="color:#ef4444">*</span></label>
               <input id="phone" name="phone" placeholder="VD: 09xxxxxxxx" required/>
             </div>
-
             <div class="field">
               <label for="email">Email </label>
               <input id="email" name="email" type="email" placeholder="VD: co.dong@email.com" />
@@ -910,13 +909,13 @@
                 <input id="delegateId" name="delegateId" placeholder="VD: 0xxxxxxxxxxxx" />
               </div>
 <div class="field" style="grid-column:1/-1">
-                <label for="delegateAddress">Địa chỉ thường trú <span style="color:#ef4444">*</span><label>
-                <input id="delegateAddress" name="delegateAddress" placeholder="VD: 123 Trần Hưng Đạo, TP. Hội An" required/>
+                <label for="delegateAddress">Địa chỉ thường trú <span style="color:#ef4444">*</span></label>
+                <input id="delegateAddress" name="delegateAddress" placeholder="VD: 123 Trần Hưng Đạo, TP. Hội An" />
               </div>
 
               <div class="field">
                 <label for="delegatePhone">Điện thoại <span style="color:#ef4444">*</span></label>
-                <input id="delegatePhone" name="delegatePhone" placeholder="VD: 09xxxxxxxx" required/>
+                <input id="delegatePhone" name="delegatePhone" placeholder="VD: 09xxxxxxxx" />
               </div>
 
               <div class="field">
@@ -1067,6 +1066,8 @@ const delegateName = $('#delegateName');
 const delegateId = $('#delegateId');
 const selfShares = $('#selfShares');
 const delegateShares = $('#delegateShares');
+const delegateAddress = $('#delegateAddress');
+const delegatePhone = $('#delegatePhone');
 
 function setChoice(v){
 
@@ -1096,6 +1097,8 @@ function setChoice(v){
     delegateName.required = true;
     delegateId.required = true;
     delegateShares.required = true;
+    delegateAddress.required = true;
+    delegatePhone.required = true;
   }
 }
 
