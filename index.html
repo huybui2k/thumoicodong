@@ -1122,6 +1122,7 @@ const ENDPOINT = "https://script.google.com/macros/s/AKfycbyPfIDwheoyINljzajbLjE
 
 const form = $('#rsvpForm');
 const status = $('#status');
+const defaultStatus = 'Dữ liệu sẽ được ghi nhận vào hệ thống của Công ty.';
 
 function setStatus(msg, mode='info'){
   status.textContent = msg;
@@ -1195,6 +1196,7 @@ if(form) form.addEventListener('submit', async (e) => {
       selfShareBlock.classList.add('hidden');
       delegateShareBlock.classList.add('hidden');
       showSuccessModal();
+      setStatus(defaultStatus);
     }else{
       setStatus('Gửi thất bại: ' + text, 'error');
     }
