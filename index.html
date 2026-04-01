@@ -1133,9 +1133,9 @@ if(form) form.addEventListener('submit', async (e) => {
 
   const data = {
     fullName: $('#fullName').value.trim(),
-    idNumber: $('#idNumber').value.trim(),
+    idNumber: "'" + $('#idNumber').value.trim(),
     address: $('#address').value.trim(),
-    phone: $('#phone').value.trim(),
+    phone: "'" + $('#phone').value.trim(),
     email: $('#email').value.trim(),
 
     attendance: ($('input[name="attendance"]:checked')||{}).value || '',
@@ -1144,9 +1144,9 @@ if(form) form.addEventListener('submit', async (e) => {
     reason: $('#reason').value.trim(),
 
     delegateName: $('#delegateName').value.trim(),
-    delegateId: $('#delegateId').value.trim(),
+    delegateId: "'" +  $('#delegateId').value.trim(),
     delegateAddress: $('#delegateAddress').value.trim(),
-    delegatePhone: $('#delegatePhone').value.trim(),
+    delegatePhone: "'" + $('#delegatePhone').value.trim(),
     delegateEmail: $('#delegateEmail').value.trim(),
 
     source: 'HOI AN TOURIST - RSVP WEB',
